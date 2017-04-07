@@ -210,6 +210,21 @@ public class ArrayTests {
     }
 
     @Test
+    public void serializablePrimitiveArrays() throws Exception {
+        JavaFileObject testSource = JavaFileObjects.forResource(getClass().getResource("SerializablePrimitiveArrays.java"));
+
+        JavaFileObject generatedStub = JavaFileObjects.forResource(getClass().getResource("SerializablePrimitiveArrays$$AidlServerImpl.java"));
+        JavaFileObject generatedProxy = JavaFileObjects.forResource(getClass().getResource("SerializablePrimitiveArrays$$AidlClientImpl.java"));
+
+        assertAbout(javaSource()).that(testSource)
+                .withCompilerOptions(usualArgs())
+                .processedWith(new AidlProcessor())
+                .compilesWithoutWarnings()
+                .and()
+                .generatesSources(generatedStub, generatedProxy);
+    }
+
+    @Test
     public void serializableArrayParameter() throws Exception {
         JavaFileObject testSource = JavaFileObjects.forResource(getClass().getResource("SerializableArrayTest.java"));
 
